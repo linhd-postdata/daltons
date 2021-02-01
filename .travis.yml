@@ -1,8 +1,8 @@
 language: python
 os: linux
 dist: xenial
-cache: false
-matrix:
+cache: pip
+jobs:
   include:
   - python: '3.8'
     env:
@@ -22,9 +22,13 @@ before_install:
     - lsb_release -a || true
     - pip --version
 install:
-    - python -mpip install --progress-bar=off tox-travis -rci/requirements.txt
+    - pip install tox
+    - virtualenv --version
+    - easy_install --version
+    - pip --version
+    - tox --version
 script:
-    - tox -v -p auto
+    - travis_wait 20 tox -v
 after_failure:
     - more .tox/log/* | cat
     - more .tox/*/log/* | cat
@@ -41,5 +45,5 @@ deploy:
     condition: "$TOXENV = py38"
 notifications:
     email:
-        on_success: never
-        on_failure: always
+        on_success: always
+        on_failure: never
