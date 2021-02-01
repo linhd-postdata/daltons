@@ -1,11 +1,19 @@
+graft docs
+graft daltons
+graft ci
+graft tests
+
 include AUTHORS.rst
 include CONTRIBUTING.rst
 include HISTORY.rst
 include LICENSE
 include README.rst
 
-recursive-include tests *
-recursive-exclude * __pycache__
-recursive-exclude * *.py[co]
+include .editorconfig
+include tox.ini .travis.yml
 
-recursive-include docs *.rst conf.py Makefile make.bat *.jpg *.png *.gif
+include *requirements*.txt
+
+include Makefile
+
+global-exclude *.py[cod] __pycache__/* *.so *.dylib

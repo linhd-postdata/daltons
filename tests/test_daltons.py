@@ -5,9 +5,6 @@
 import pytest
 
 
-from daltons import daltons
-
-
 @pytest.fixture
 def response():
     """Sample pytest fixture.
