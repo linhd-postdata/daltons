@@ -1,27 +1,49 @@
-# Config file for automatic testing at travis-ci.com
-
 language: python
-python:
-  - 3.8
-  - 3.7
-
-# Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install: pip install -U tox-travis
-
-# Command to run tests, e.g. python setup.py test
-script: tox
-
-# Assuming you have installed the travis-ci CLI tool, after you
-# create the Github repo and add it to Travis, run the
-# following command to finish PyPI deployment setup:
-# $ travis encrypt --add deploy.password
+os: linux
+dist: xenial
+cache: pip
+jobs:
+  include:
+  - python: '3.8'
+    env:
+    - TOXENV=check
+  - python: '3.8'
+    env:
+    - TOXENV=docs
+  - env:
+    - TOXENV=py37
+    python: '3.7'
+  - env:
+    - TOXENV=py38
+    python: '3.8'
+before_install:
+    - python --version
+    - uname -a
+    - lsb_release -a || true
+    - pip --version
+install:
+    - pip install tox
+    - virtualenv --version
+    - easy_install --version
+    - pip --version
+    - tox --version
+script:
+    - travis_wait 20 tox -v
+after_failure:
+    - more .tox/log/* | cat
+    - more .tox/*/log/* | cat
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
-  user: linhd-postdata
+  username: linhd-postdata
   password:
-    secure: PLEASE_REPLACE_ME
+    secure: UklbfbRdIvqEGqlu4nTx1M/tDmIVnV5TF3ncdr3laoBx5Vovi16KiM9WaQ+1tG5ZEwE5i/mZ3rdfWgkQPiSmjEEchWK3YrL6pbUC5EMpE9Iqs6KaZewEG12Y5tELMTcTeu7sBnqqDr1HX5yjJ9uvI2XAAVZEtK+wE/vb0Hhap/uZQQB1zWJcQcwHkFDMnQSLEE1V59Io5hof+hTPs0GFG/VEiHTk14GYMvWDZS80E7VDG6pAFIZaNtf3Io2YeJTO+XEHpB285vDjxLWans5eaDrDl53QpS7DLxZ1VP6yPFaO3nbZ6WBH/ZnpRJjYqBjzQr6/8YBkiWHmaLCZgxixgvDastV1NEaD70ukzFNDD010c+XxMbbAoEUsWEmqMo1PT+lF28Cg74UVZ8op8GDdA1G5KbmF6zF55DvuFQ1xqnXyZNkjLjfPtrPnyJ52YKU2Tw7fFn4iU/s0nGtPqMgchDaXd62J2YLBQQnLOG6RLhRe8Uqw6LvfuwC4jLXRBOtZ0CPgN8czsCu0TrrvvJ8ehaLaQAi7Ndf2umptEMUrC56KmTzxnk75rAbQWg7vusrIsxowtroDyBKGzlmnzbWrr/E0zzYilyn284JfeWs/uP4ftuMEAbW9ssgUzPavbo24YQWoCbwDi4lHuvT1IFgGj1Vd8qb9zd+Jgeu8y2KiB2M=
   on:
     tags: true
     repo: linhd-postdata/daltons
     python: 3.8
+    condition: "$TOXENV = py38"
+notifications:
+    email:
+        on_success: always
+        on_failure: never

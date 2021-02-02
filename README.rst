@@ -12,11 +12,9 @@ Daltons
 .. image:: https://readthedocs.org/projects/daltons/badge/?version=latest
         :target: https://daltons.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
-_dev.txt
 
-.. image:: https://pyup.io/repos/github/linhd-postdata/daltons/shield.svg
-     :target: https://pyup.io/repos/github/linhd-postdata/daltons/
-     :alt: Updates
+.. image:: https://badgen.net/dependabot/linhd-postdata/daltons
+     :alt: Dependabot Status
 
 
 
