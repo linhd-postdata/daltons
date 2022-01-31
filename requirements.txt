@@ -1,2 +1,2 @@
-setuptools~=59.6.0
+setuptools~=60.6.0
 pytest~=6.2.2
